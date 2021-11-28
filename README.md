@@ -27,7 +27,18 @@ git clone https://github.com/supervet-su/supervet.git
    git checkout -b <branch-name>
 ```
 ### Merge your working branch
-- Please create a pull request
-- then merge it to the main branch
+- Checkout main branch and pull latest
+```git
+   git checkout main
+   git pull
+```
+- Checkout your working branch and merge with main branch
+```git
+   git checkout <your-branch>
+   git merge main
+```
+- Fix merge conflicts if any
+- Create a merge pull request on github for your working branch
+- Write some description then merge it to the main branch
 
 
