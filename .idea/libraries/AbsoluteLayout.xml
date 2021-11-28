@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="AbsoluteLayout">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/absolutelayout/AbsoluteLayout.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-8.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org-netbeans-modules-java-j2seproject-copylibstask.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
