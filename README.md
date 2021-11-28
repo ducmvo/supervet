@@ -1,21 +1,32 @@
 # WELCOME TO SUPERVET
-## Installation
-Clone the project
+
+## INSTALLATION
+### Requirements  
+#### *Download and install*   
+* [Java SE Development Kit 8](https://www.oracle.com/java/technologies/downloads/#java8)  
+* [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
+### Clone the project
 ```git
 git clone https://github.com/supervet-su/supervet.git
 ```
-Make sure you install JSK8
-## Contribution
-Pull the latest from develop
+### Project Configuration
+#### *File/Project Structure/Project* 
+<img width="893" alt="Screen Shot 2021-11-28 at 11 39 19 AM" src="https://user-images.githubusercontent.com/61364158/143783347-12bb7c8e-22b4-4f6b-8541-be0d55e00bda.png">
+
+#### *File/Project Structure/Libraries*  
+<img width="893" alt="Screen Shot 2021-11-28 at 11 39 56 AM" src="https://user-images.githubusercontent.com/61364158/143783361-fe917b67-233d-433c-9aee-1b70bac97651.png">
+
+## CONTRIBUTION
+### Pull the latest from main
 ```git
    git checkout main
    git pull
  ```
-Create a working branch
+### Create a working branch
 ```git
    git checkout -b <branch-name>
 ```
-Merge your working branch
+### Merge your working branch
 - Please create a pull request
 - then merge it to the main branch
 
