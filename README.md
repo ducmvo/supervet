@@ -39,6 +39,6 @@ git clone https://github.com/supervet-su/supervet.git
 ```
 - Fix merge conflicts if any
 - Create a merge pull request on github for your working branch
-- Write some description then merge it to the main branch
-
+- Write some description then merge it to the main branch   
+<img width="1022" alt="Screen Shot 2021-11-28 at 12 11 55 PM" src="https://user-images.githubusercontent.com/61364158/143784270-bf21ea99-b903-486a-ba8e-9cc2bfcd17bd.png">
 
