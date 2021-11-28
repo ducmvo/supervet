@@ -223,7 +223,7 @@ public class QueryRunner {
         boolean bConnect = m_jdbcData.CloseDatabase();
         if (bConnect == false)
             m_error = m_jdbcData.GetError();
-        return true;
+        return bConnect;
     }
     
     public String GetError()
@@ -245,27 +245,24 @@ public class QueryRunner {
     
     public static void main(String[] args) {
         // TODO code application logic here
-
         final QueryRunner queryrunner = new QueryRunner();
-        
-        if (args.length == 0)
-        {
+        if (args.length == 0) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
 
                     new QueryFrame(queryrunner).setVisible(true);
                 }            
             });
-        }
-        else
-        {
-            if (args[0].equals ("-console"))
-            {
-            	System.out.println("Nothing has been implemented yet. Please implement the necessary code");
-               // TODO 
-                // You should code the following functionality:
+        } else {
+            if (args[0].equals ("-console")) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new QueryConsole(queryrunner);
+                    }
+                });
 
                 //    You need to determine if it is a parameter query. If it is, then
+
                 //    you will need to ask the user to put in the values for the Parameters in your query
                 //    you will then call ExecuteQuery or ExecuteUpdate (depending on whether it is an action query or regular query)
                 //    if it is a regular query, you should then get the data by calling GetQueryData. You should then display this
@@ -305,6 +302,5 @@ public class QueryRunner {
                 
             }
         }
- 
     }    
 }
