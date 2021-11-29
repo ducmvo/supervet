@@ -49,7 +49,6 @@ public class QueryRunner {
 
         // query 1: insert new customer to customer table. takes in customerID, address, city, state, zipcode, email, first name, and last name as inputs.
         // some parameters are left blank since exceeding 8 parameters would fail running the program.
-        // current datetime
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDateTime = formatter.format(date);
@@ -58,11 +57,19 @@ public class QueryRunner {
                 "VALUES (?, '" +
                 currentDateTime +
                 "', ?, ?, ?, ?, ?, ?, ?);";
-
         m_queryArray.add(new QueryData(query1, new String [] {
                 "customer's ID", "address", "city", "state", "zipcode", "email", "first name", "last name"}, new boolean [] {false, false, false, false, false, false, false, false, false},
                 true, true));
 
+        // query 2: create new pet to pet table.
+        String query2 = "INSERT INTO pet " +
+                "(petID, createdAt, customerID, name, breed)" +
+                "VALUES (?, '" +
+                currentDateTime +
+                "', ?, ?, ?);";
+        m_queryArray.add(new QueryData(query2, new String [] {
+                "pet's ID", "owner's ID", "name", "breed"}, new boolean [] {false, false, false, false},
+                true, true));
 
         // query 4: retrieve a pet's medication history by email as input
         String query4 = "SELECT prescriptionID, \n" +
