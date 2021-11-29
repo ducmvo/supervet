@@ -71,6 +71,16 @@ public class QueryRunner {
                 "pet's ID", "owner's ID", "name", "breed"}, new boolean [] {false, false, false, false},
                 true, true));
 
+        // query 3: insert a new prescription to prescription table. takes in prescriptionID, petID, status and vetID as user input.
+        String query3 = "INSERT INTO prescription " +
+                "(prescriptionID, petID, status, createdAt, vetID)" +
+                "VALUES (?, ?, ?, '" +
+                currentDateTime +
+                "', ?);";
+        m_queryArray.add(new QueryData(query3, new String [] {
+                "prescription's ID", "pet's ID", "status", "vetID"}, new boolean [] {false, false, false, false},
+                true, true));
+
         // query 4: retrieve a pet's medication history by email as input
         String query4 = "SELECT prescriptionID, \n" +
             "Pet.petID,\n" +
