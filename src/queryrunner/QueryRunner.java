@@ -135,6 +135,12 @@ public class QueryRunner {
                 "customer's ID"}, new boolean [] {false},
                 false, true));
 
+        // query 7: search products by name. takes in drug name as user input.
+        String query7 = "SELECT * FROM product\n" +
+                "WHERE name = ?;";
+        m_queryArray.add(new QueryData(query7, new String [] {
+                "Product's name"}, new boolean [] {false},
+                false, true));
 
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
         /*String query2 = "SELECT petID,\n" +
