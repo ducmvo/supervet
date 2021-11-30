@@ -11,9 +11,11 @@ package queryrunner;
  *
  * @author mckeem
  */
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class QueryFrame extends javax.swing.JFrame {
@@ -29,13 +31,17 @@ public class QueryFrame extends javax.swing.JFrame {
         m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12};        
         m_textvals = new JTextField[] { jTextField5, jTextField6,jTextField7,jTextField8,jTextField9,jTextField10,jTextField11,jTextField12};
         m_queryrunner = queryrunnerObj;
+        String[] m_querynames = new String[]{"Create Customer", "Create Pet", "Create Prescription",
+                                             "Create Medication", "Pull pet meds by email", "Create sale",
+                                             "Create sale log", "List customer med history", "Find prod by name",
+                                             "Change prod price", "Find vet by name", "Find pet by name"};
         // Find out how many queries there are and set up combox box
         // If it is a grid query, then enable jtable
         int nAmt = m_queryrunner.GetTotalQueries();
 
         for (int i=0; i < nAmt; i++)
         {
-            this.jComboBoxQuery.addItem("Query " + (i+1));
+            this.jComboBoxQuery.addItem(m_querynames[i] + " " + (i+1));
         }
         jComboBoxQuery.setEnabled(false);
         jBtnRunQuery.setEnabled(false);
@@ -87,6 +93,7 @@ public class QueryFrame extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        JBackground = new javax.swing.JFrame("supervet logo");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -175,7 +182,7 @@ public class QueryFrame extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBoxQuery, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 120, -1));
+        getContentPane().add(jComboBoxQuery, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 180, -1));
 
         jLabel5.setText("Database");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 90, 10));
@@ -216,6 +223,7 @@ public class QueryFrame extends javax.swing.JFrame {
         jLabel14.setText("VVV");
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 180, -1));
 
+//        BufferedImage background = ImageIO.read("../../lib/Supervet.png");
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -274,9 +282,9 @@ public class QueryFrame extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         
         jTextArea2.setText("");
-        String szChoice = (String)jComboBoxQuery.getSelectedItem();        
-        String szStripChoice = szChoice.substring(6);
-        m_queryChoice = Integer.parseInt(szStripChoice)-1;        
+        String szChoice = (String)jComboBoxQuery.getSelectedItem();
+        String szStripChoice = szChoice.substring(szChoice.length() - 1);
+        m_queryChoice = Integer.parseInt(szStripChoice)-1;
         String szQuery = m_queryrunner.GetQueryText(m_queryChoice);
         this.jTextArea1.setText(szQuery);
         System.out.println("choice is " + szChoice);
@@ -418,6 +426,7 @@ public class QueryFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JFrame JBackground;
     // End of variables declaration//GEN-END:variables
 
 
