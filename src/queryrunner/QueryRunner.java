@@ -206,6 +206,64 @@ public class QueryRunner {
         m_queryArray.add(new QueryData(query12, new String [] {
                 "Pet's name"}, new boolean [] {true},
                 false, true));
+
+        // query 13: display the customer table
+        String query13 = "SELECT * FROM Customer;";
+        m_queryArray.add(new QueryData(query13, new String [] {}, new boolean [] {},
+                false, false));
+
+        // query 14: display the product table
+        String query14 = "SELECT * FROM Products;";
+        m_queryArray.add(new QueryData(query14, new String [] {}, new boolean [] {},
+                false, false));
+
+        /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
+        /*String query2 = "SELECT petID,\n" +
+            "Pet.name AS `pet_name`,\n" +
+            "ROUND(SUM(PrescriptionProduct.quantity * Product.price),2) AS `Total Prescription Cost`\n" +
+            "FROM Prescription\n" +
+            "JOIN PrescriptionProduct USING (prescriptionID)\n" +
+            "JOIN Product USING (productID)\n" +
+            "JOIN Pet USING (petID)\n" +
+            "JOIN Customer USING (customerID)\n" +
+            "WHERE customerID = ?\n" +
+            "GROUP BY petID\n" +
+            "ORDER BY Pet.name;";
+        // test customerID: 1781
+
+        m_queryArray.add(new QueryData(query2, new String [] {
+                "customerID"}, new boolean [] {false},
+                false, true));*/
+
+
+        /* 3. Find out average prescription cost for a pet of customers who live in Washington state */
+        /*String query3 = "SELECT ROUND(AVG(prescription_cost), 2) " +
+            "AS `Average State Prescription Cost` FROM (\n" +
+            "SELECT SUM(Product.price * PrescriptionProduct.quantity) " +
+            "AS prescription_cost \n" +
+            "FROM Customer \n" +
+            "JOIN Pet USING (customerID)\n" +
+            "JOIN Prescription USING (petID)\n" +
+            "JOIN PrescriptionProduct USING (prescriptionID)\n" +
+            "JOIN Product USING (productID)\n" +
+            "WHERE state = ?\n" +
+            "GROUP BY prescriptionID\n" +
+            ") AS PrescriptionCost;";
+        m_queryArray.add(new QueryData(query3, new String [] {
+                "State"}, new boolean [] {false},
+                false, true));*/
+
+
+
+//        String query4 =  "";
+//        m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));// THIS NEEDS TO CHANGE FOR YOUR APPLICATION
+
+
+        /*m_queryArray.add(new QueryData("Select * from Vet where vetID = ?;",
+                new String [] {"vetID"}, new boolean [] {false},  false,
+                true));*/
+//        m_queryArray.add(new QueryData("Select * from contact where contact_name like ?", new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
+
     }
        
 
