@@ -80,7 +80,7 @@ public class QueryJDBC {
                 String parm = parms[i];
                 if (likeparms[i] == true)
                 {
-                    parm += "%";
+                    parm = "%" + parm + "%";
                 }
                 preparedStatement.setString(i+1, parm);
 

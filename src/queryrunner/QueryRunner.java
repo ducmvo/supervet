@@ -33,7 +33,9 @@ public class QueryRunner {
         
         // You will need to put your Project Application in the below variable
         
-        this.m_projectTeamApplication="SUPERVET";    // THIS NEEDS TO CHANGE
+        this.m_projectTeamApplication="SUPER-VET ANIMAL HOSPITAL";    // THIS
+        // NEEDS TO
+        // CHANGE
         // FOR
         // YOUR APPLICATION
         
@@ -53,12 +55,15 @@ public class QueryRunner {
         Date date = new Date();
         String currentDateTime = formatter.format(date);
         String query1 = "INSERT INTO Customer " +
-                "(createdAt, address, city, state, zip_code, password, email, first_name, last_name) " +
+                "(createdAt, address, city, state, zip_code, password, \n" +
+                "email, first_name, last_name) " +
                 "VALUES ('" +
                 currentDateTime +
                 "', ?, ?, ?, ?, ?, ?, ?, ?);";
         m_queryArray.add(new QueryData(query1, new String [] {
-                "address", "city", "state", "zipcode", "password", "email", "first name", "last name"}, new boolean [] {false, false, false, false, false, false, false, false, false},
+                "address", "city", "state", "zipcode", "password",
+                "email", "first name", "last name"},
+                new boolean [] {false, false, false, false, false, false, false, false, false},
                 true, true));
 
         // query 2: create new pet to pet table.
@@ -72,7 +77,7 @@ public class QueryRunner {
                 true, true));
 
         // query 3: insert a new prescription to prescription table. takes in prescriptionID, petID, status and vetID as user input.
-        String query3 = "INSERT INTO Prescription " +
+        String query3 = "INSERT INTO Prescription \n" +
                 "(prescriptionID, petID, status, createdAt, vetID) " +
                 "VALUES (?, ?, ?, '" +
                 currentDateTime +
@@ -82,7 +87,7 @@ public class QueryRunner {
                 true, true));
 
         // query 4: insert a new PrescriptionProduct to PrescriptionProduct table. takes in prescriptionID, productID, quantity, unit, description as user input.
-        String query4 = "INSERT INTO PrescriptionProduct " +
+        String query4 = "INSERT INTO PrescriptionProduct \n" +
                 "(prescriptionID, productID, quantity, unit, description, createdAt) " +
                 "VALUES (?, ?, ?, ?, ?, '" +
                 currentDateTime +
@@ -92,7 +97,7 @@ public class QueryRunner {
                 true, true));
 
         // query 5: retrieve a pet's medication history by email as input
-        String query5 = "SELECT PrescriptionID, \n" +
+        String query5 = "SELECT PrescriptionID, " +
             "Pet.petID,\n" +
             "Pet.name AS `pet_name`, \n" +
             "Product.productID,\n" +
@@ -115,7 +120,7 @@ public class QueryRunner {
 
         // query 6: insert a new sale to sale table. takes in saleID, description, and employeeID as user input
         String query6 = "INSERT INTO Sale " +
-                "(saleID, description, createdAt, updatedAt, employeeID) " +
+                "(saleID, description, createdAt, updatedAt, employeeID) \n" +
                 "VALUES (?, ?, '" +
                 currentDateTime +
                 "', '" +
@@ -127,7 +132,7 @@ public class QueryRunner {
 
         // query 7: insert a new SaleProduct to SaleProduct table. takes in saleID, description, and employeeID as user input
         String query7 = "INSERT INTO SaleProduct " +
-                "(saleID, productID, quantity, description, createdAt) " +
+                "(saleID, productID, quantity, description, createdAt) \n" +
                 "VALUES (?, ?, ?, ?, '" +
                 currentDateTime +
                 "');";
@@ -163,7 +168,7 @@ public class QueryRunner {
                 false, true));
 
         // query 10: update a product's price. takes in product's ID and new price as user input
-        String query10 = "UPDATE Product\n" +
+        String query10 = "UPDATE Product " +
                 "SET price = ?\n" +
                 "WHERE productID = ?;";
         m_queryArray.add(new QueryData(query10, new String [] {
@@ -171,67 +176,19 @@ public class QueryRunner {
                 true, true));
 
         // query 11: search vet by name. takes in vet's first name as user input
-        String query11 = "SELECT * FROM Vet\n" +
+        String query11 = "SELECT * FROM Vet " +
                 "WHERE first_name LIKE ?;";
         m_queryArray.add(new QueryData(query11, new String [] {
                 "Vet's name"}, new boolean [] {true},
                 false, true));
 
         // query 12: search pet by name. takes in pet's name as user input
-        String query12 = "SELECT * FROM Pet\n" +
+        String query12 = "SELECT * FROM Pet " +
                 "JOIN Customer USING (customerID)\n" +
                 "WHERE Pet.name LIKE ?;";
         m_queryArray.add(new QueryData(query12, new String [] {
                 "Pet's name"}, new boolean [] {true},
                 false, true));
-
-        /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
-        /*String query2 = "SELECT petID,\n" +
-            "Pet.name AS `pet_name`,\n" +
-            "ROUND(SUM(PrescriptionProduct.quantity * Product.price),2) AS `Total Prescription Cost`\n" +
-            "FROM Prescription\n" +
-            "JOIN PrescriptionProduct USING (prescriptionID)\n" +
-            "JOIN Product USING (productID)\n" +
-            "JOIN Pet USING (petID)\n" +
-            "JOIN Customer USING (customerID)\n" +
-            "WHERE customerID = ?\n" +
-            "GROUP BY petID\n" +
-            "ORDER BY Pet.name;";
-        // test customerID: 1781
-
-        m_queryArray.add(new QueryData(query2, new String [] {
-                "customerID"}, new boolean [] {false},
-                false, true));*/
-
-
-        /* 3. Find out average prescription cost for a pet of customers who live in Washington state */
-        /*String query3 = "SELECT ROUND(AVG(prescription_cost), 2) " +
-            "AS `Average State Prescription Cost` FROM (\n" +
-            "SELECT SUM(Product.price * PrescriptionProduct.quantity) " +
-            "AS prescription_cost \n" +
-            "FROM Customer \n" +
-            "JOIN Pet USING (customerID)\n" +
-            "JOIN Prescription USING (petID)\n" +
-            "JOIN PrescriptionProduct USING (prescriptionID)\n" +
-            "JOIN Product USING (productID)\n" +
-            "WHERE state = ?\n" +
-            "GROUP BY prescriptionID\n" +
-            ") AS PrescriptionCost;";
-        m_queryArray.add(new QueryData(query3, new String [] {
-                "State"}, new boolean [] {false},
-                false, true));*/
-
-
-
-//        String query4 =  "";
-//        m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));// THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-
-
-        /*m_queryArray.add(new QueryData("Select * from Vet where vetID = ?;",
-                new String [] {"vetID"}, new boolean [] {false},  false,
-                true));*/
-//        m_queryArray.add(new QueryData("Select * from contact where contact_name like ?", new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-
     }
        
 
@@ -340,7 +297,7 @@ public class QueryRunner {
         boolean bConnect = m_jdbcData.CloseDatabase();
         if (bConnect == false)
             m_error = m_jdbcData.GetError();
-        return true;
+        return bConnect;
     }
     
     public String GetError()
@@ -355,73 +312,27 @@ public class QueryRunner {
     private int m_updateAmount;
             
     /**
+     * Run main method with '-console' argument for console interface
      * @param args the command line arguments
      */
-    
 
-    
     public static void main(String[] args) {
-        // TODO code application logic here
-
         final QueryRunner queryrunner = new QueryRunner();
-        
-        if (args.length == 0)
-        {
+        if (args.length == 0) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-
                     new QueryFrame(queryrunner).setVisible(true);
                 }            
             });
-        }
-        else
-        {
-            if (args[0].equals ("-console"))
-            {
-            	System.out.println("Nothing has been implemented yet. Please implement the necessary code");
-               // TODO 
-                // You should code the following functionality:
+        } else {
+            if (args[0].equals ("-console")) {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new QueryConsole(queryrunner);
+                    }
+                });
 
-                //    You need to determine if it is a parameter query. If it is, then
-                //    you will need to ask the user to put in the values for the Parameters in your query
-                //    you will then call ExecuteQuery or ExecuteUpdate (depending on whether it is an action query or regular query)
-                //    if it is a regular query, you should then get the data by calling GetQueryData. You should then display this
-                //    output. 
-                //    If it is an action query, you will tell how many row's were affected by it.
-                // 
-                //    This is Psuedo Code for the task:  
-                //    Connect()
-                //    n = GetTotalQueries()
-                //    for (i=0;i < n; i++)
-                //    {
-                //       Is it a query that Has Parameters
-                //       Then
-                //           amt = find out how many parameters it has
-                //           Create a paramter array of strings for that amount
-                //           for (j=0; j< amt; j++)
-                //              Get The Paramater Label for Query and print it to console. Ask the user to enter a value
-                //              Take the value you got and put it into your parameter array
-                //           If it is an Action Query then
-                //              call ExecuteUpdate to run the Query
-                //              call GetUpdateAmount to find out how many rows were affected, and print that value
-                //           else
-                //               call ExecuteQuery 
-                //               call GetQueryData to get the results back
-                //               print out all the results
-                //           end if
-                //      }
-                //    Disconnect()
-
-
-                // NOTE - IF THERE ARE ANY ERRORS, please print the Error output
-                // NOTE - The QueryRunner functions call the various JDBC Functions that are in QueryJDBC. If you would rather code JDBC
-                // functions directly, you can choose to do that. It will be harder, but that is your option.
-                // NOTE - You can look at the QueryRunner API calls that are in QueryFrame.java for assistance. You should not have to 
-                //    alter any code in QueryJDBC, QueryData, or QueryFrame to make this work.
-//                System.out.println("Please write the non-gui functionality");
-                
             }
         }
- 
     }    
 }
