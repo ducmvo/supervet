@@ -185,6 +185,16 @@ public class QueryRunner {
                 "Pet's name"}, new boolean [] {true},
                 false, true));
 
+        // query 13: display the customer table
+        String query13 = "SELECT * FROM Customer;";
+        m_queryArray.add(new QueryData(query13, new String [] {}, new boolean [] {},
+                false, false));
+
+        // query 14: display the product table
+        String query14 = "SELECT * FROM Products;";
+        m_queryArray.add(new QueryData(query14, new String [] {}, new boolean [] {},
+                false, false));
+
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
         /*String query2 = "SELECT petID,\n" +
             "Pet.name AS `pet_name`,\n" +
