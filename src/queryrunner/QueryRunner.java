@@ -142,6 +142,14 @@ public class QueryRunner {
                 "Product's name"}, new boolean [] {false},
                 false, true));
 
+        // query 8: update a product's price. takes in product's ID and new price as user input
+        String query8 = "UPDATE product\n" +
+                "SET price = ?\n" +
+                "WHERE productID = ?;";
+        m_queryArray.add(new QueryData(query8, new String [] {
+                "new price", "product's ID"}, new boolean [] {false, false},
+                true, true));
+
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
         /*String query2 = "SELECT petID,\n" +
             "Pet.name AS `pet_name`,\n" +

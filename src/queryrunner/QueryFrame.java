@@ -234,8 +234,8 @@ public class QueryFrame extends javax.swing.JFrame {
         if (jConnectButton.getText() == "Connect")
         {            
 //            bOK = m_queryrunner.Connect(this.jTextHostname.getText(), this.jTextFieldUser.getText(), String.valueOf(this.jPasswordField1.getPassword()), this.jTextFieldDatabase.getText());
-//            bOK = m_queryrunner.Connect("cs100.seattleu.edu", "mm_cpsc502101team01", "mm_cpsc502101team01Pass-", "mm_cpsc502101team01");
-            bOK = m_queryrunner.Connect("localhost", "root", "", "vetapp");
+            bOK = m_queryrunner.Connect("cs100.seattleu.edu", "mm_cpsc502101team01", "mm_cpsc502101team01Pass-", "mm_cpsc502101team01");
+//            bOK = m_queryrunner.Connect("localhost", "root", "", "");
 
             if (bOK == true)
            {
