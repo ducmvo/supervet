@@ -111,10 +111,29 @@ public class QueryRunner {
                 "', '" +
                 currentDateTime +
                 "', ?);";
-        System.out.println(query5);
         m_queryArray.add(new QueryData(query5, new String [] {
                 "sale's ID", "description", "employeeID"}, new boolean [] {false, false, false},
                 true, true));
+
+        // query 6: list customer's purchase history for prescription. takes in customer ID as input
+        String query6 = "SELECT Customer.customerID AS CustomerID, \n" +
+                "Pet.name AS PetName, Customer.email AS CustomerEmail, \n" +
+                "Appointment.date AS AppointmentDate, \n" +
+                "Vet.vetID AS VetID, \n" +
+                "ROUND((PrescriptionProduct.quantity * Product.price), 2) AS TotalBill, \n" +
+                "Payment.status AS PaymentStatus\n" +
+                "FROM Customer\n" +
+                "JOIN Appointment USING (customerID)\n" +
+                "JOIN Pet USING (customerID)\n" +
+                "JOIN Vet USING (vetID)\n" +
+                "JOIN Prescription USING (vetID)\n" +
+                "JOIN PrescriptionProduct USING (prescriptionID)\n" +
+                "JOIN Product USING (productID)\n" +
+                "JOIN Payment USING (prescriptionID)\n" +
+                "WHERE Customer.customerID = ?;";
+        m_queryArray.add(new QueryData(query6, new String [] {
+                "customer's ID"}, new boolean [] {false},
+                false, true));
 
 
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
