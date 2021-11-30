@@ -170,6 +170,13 @@ public class QueryRunner {
                 "new price", "product's ID"}, new boolean [] {false, false},
                 true, true));
 
+        // query 11: search vet by name. takes in vet's first name as user input
+        String query11 = "SELECT * FROM Vet\n" +
+                "WHERE first_name LIKE ?;";
+        m_queryArray.add(new QueryData(query11, new String [] {
+                "Vet's name"}, new boolean [] {true},
+                false, true));
+
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
         /*String query2 = "SELECT petID,\n" +
             "Pet.name AS `pet_name`,\n" +
