@@ -27,30 +27,34 @@ public class QueryRunner {
         m_updateAmount = 0;
         m_queryArray = new ArrayList<>();
         m_error="";
-    
+
+        this.m_projectTeamApplication="SUPER-VET ANIMAL HOSPITAL";
         
-        // TODO - You will need to change the queries below to match your queries.
+        // Each row that is added to m_queryArray is a separate query.  It
+        // does not work on Stored procedure calls.
+        // The 'new' Java keyword is a way of initializing the data that
+        // will be added to QueryArray. Please do not change
+        // Format for each row of m_queryArray is:
+        // (QueryText, ParamaterLabelArray[], LikeParameterArray[],
+        // IsItActionQuery, IsItParameterQuery)
         
-        // You will need to put your Project Application in the below variable
-        
-        this.m_projectTeamApplication="SUPER-VET ANIMAL HOSPITAL";    // THIS
-        // NEEDS TO
-        // CHANGE
-        // FOR
-        // YOUR APPLICATION
-        
-        // Each row that is added to m_queryArray is a separate query. It does not work on Stored procedure calls.
-        // The 'new' Java keyword is a way of initializing the data that will be added to QueryArray. Please do not change
-        // Format for each row of m_queryArray is: (QueryText, ParamaterLabelArray[], LikeParameterArray[], IsItActionQuery, IsItParameterQuery)
-        
-        //    QueryText is a String that represents your query. It can be anything but Stored Procedure
-        //    Parameter Label Array  (e.g. Put in null if there is no Parameters in your query, otherwise put in the Parameter Names)
-        //    LikeParameter Array  is an array I regret having to add, but it is necessary to tell QueryRunner which parameter has a LIKE Clause. If you have no parameters, put in null. Otherwise put in false for parameters that don't use 'like' and true for ones that do.
+        //    QueryText is a String that represents your query.
+        //    It can be anything but Stored Procedure
+        //    Parameter Label Array  (e.g. Put in null if there is no
+        //    Parameters in your query, otherwise put in the Parameter Names)
+        //    LikeParameter Array  is an array I regret having to add, but it
+        //    is necessary to tell QueryRunner which parameter has a LIKE Clause.
+        //    If you have no parameters, put in null.
+        //    Otherwise put in false for parameters that don't use 'like'
+        //    and true for ones that do.
         //    IsItActionQuery (e.g. Mark it true if it is, otherwise false)
         //    IsItParameterQuery (e.g.Mark it true if it is, otherwise false)
 
-        // query 1: insert new customer to customer table. takes in customerID, address, city, state, zipcode, email, first name, and last name as inputs.
-        // some parameters are left blank since exceeding 8 parameters would fail running the program.
+        // query 1: insert new customer to customer table. takes in
+        // customerID, address, city, state, zipcode, email, first name,  and
+        // last name as inputs.
+        // some parameters are left blank since exceeding 8 parameters  would
+        // fail running the program.
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDateTime = formatter.format(date);
@@ -72,28 +76,34 @@ public class QueryRunner {
                 "VALUES ('" +
                 currentDateTime +
                 "', ?, ?, ?);";
-        m_queryArray.add(new QueryData(query2, new String [] {
-                "owner's ID", "name", "breed"}, new boolean [] {false, false, false},
+        m_queryArray.add(new QueryData(query2,
+                new String [] {"owner's ID", "name", "breed"},
+                new boolean [] {false, false, false},
                 true, true));
 
-        // query 3: insert a new prescription to prescription table. takes in prescriptionID, petID, status and vetID as user input.
+        // query 3: insert a new prescription to prescription table. Takes
+        // in prescriptionID, petID, status and vetID as user input.
         String query3 = "INSERT INTO Prescription \n" +
                 "(prescriptionID, petID, status, createdAt, vetID) " +
                 "VALUES (?, ?, ?, '" +
                 currentDateTime +
                 "', ?);";
         m_queryArray.add(new QueryData(query3, new String [] {
-                "prescription's ID", "pet's ID", "status", "vetID"}, new boolean [] {false, false, false, false},
+                "prescription's ID", "pet's ID", "status", "vetID"},
+                new boolean [] {false, false, false, false},
                 true, true));
 
-        // query 4: insert a new PrescriptionProduct to PrescriptionProduct table. takes in prescriptionID, productID, quantity, unit, description as user input.
+        // query 4: insert a new PrescriptionProduct to PrescriptionProduct table.
+        // takes in prescriptionID, productID, quantity, unit, description as user input.
         String query4 = "INSERT INTO PrescriptionProduct \n" +
                 "(prescriptionID, productID, quantity, unit, description, createdAt) " +
                 "VALUES (?, ?, ?, ?, ?, '" +
                 currentDateTime +
                 "');";
-        m_queryArray.add(new QueryData(query4, new String [] {
-                "prescription's ID", "product's ID", "quantity", "unit", "description"}, new boolean [] {false, false, false, false, false},
+        m_queryArray.add(new QueryData(query4,
+                new String [] { "prescription's ID", "product's ID",
+                        "quantity", "unit", "description"},
+                new boolean [] {false, false, false, false, false},
                 true, true));
 
         // query 5: retrieve a pet's medication history by email as input
@@ -118,7 +128,8 @@ public class QueryRunner {
                 "customer's email"}, new boolean [] {false},
                 false, true));
 
-        // query 6: insert a new sale to sale table. takes in saleID, description, and employeeID as user input
+        // query 6: insert a new sale to sale table.
+        // takes in saleID, description, and employeeID as user input
         String query6 = "INSERT INTO Sale " +
                 "(saleID, description, createdAt, updatedAt, employeeID) \n" +
                 "VALUES (?, ?, '" +
@@ -127,25 +138,30 @@ public class QueryRunner {
                 currentDateTime +
                 "', ?);";
         m_queryArray.add(new QueryData(query6, new String [] {
-                "sale's ID", "description", "employeeID"}, new boolean [] {false, false, false},
+                "sale's ID", "description", "employeeID"},
+                new boolean [] {false, false, false},
                 true, true));
 
-        // query 7: insert a new SaleProduct to SaleProduct table. takes in saleID, description, and employeeID as user input
+        // query 7: insert a new SaleProduct to SaleProduct table.
+        // takes in saleID, description, and employeeID as user input
         String query7 = "INSERT INTO SaleProduct " +
                 "(saleID, productID, quantity, description, createdAt) \n" +
                 "VALUES (?, ?, ?, ?, '" +
                 currentDateTime +
                 "');";
         m_queryArray.add(new QueryData(query7, new String [] {
-                "sale's ID", "product's ID", "quantity", "description"}, new boolean [] {false, false, false, false},
+                "sale's ID", "product's ID", "quantity", "description"},
+                new boolean [] {false, false, false, false},
                 true, true));
 
-        // query 8: list customer's purchase history for prescription. takes in customer ID as input
+        // query 8: list customer's purchase history for prescription.
+        // takes in customer ID as input
         String query8 = "SELECT Customer.customerID AS CustomerID, \n" +
                 "Pet.name AS PetName, Customer.email AS CustomerEmail, \n" +
                 "Appointment.date AS AppointmentDate, \n" +
                 "Vet.vetID AS VetID, \n" +
-                "ROUND((PrescriptionProduct.quantity * Product.price), 2) AS TotalBill, \n" +
+                "ROUND((PrescriptionProduct.quantity * Product.price), 2) AS " +
+                "TotalBill, \n" +
                 "Payment.status AS PaymentStatus\n" +
                 "FROM Customer\n" +
                 "JOIN Appointment USING (customerID)\n" +
@@ -167,7 +183,8 @@ public class QueryRunner {
                 "Product's name"}, new boolean [] {true},
                 false, true));
 
-        // query 10: update a product's price. takes in product's ID and new price as user input
+        // query 10: update a product's price.
+        // takes in product's ID and new price as user input
         String query10 = "UPDATE Product " +
                 "SET price = ?\n" +
                 "WHERE productID = ?;";
