@@ -11,10 +11,12 @@ package queryrunner;
  *
  * @author mckeem
  */
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Color;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -93,7 +95,23 @@ public class QueryFrame extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        JBackground = new javax.swing.JFrame("supervet logo");
+
+        BufferedImage background = null;
+        try {
+            background = ImageIO.read(new File("lib/Supervet.png"));
+            Dimension Size = getContentPane().getSize();
+            int width = (int) Size.getWidth();
+            int height = (int) Size.getHeight();
+            if (height == 0 && width == 0) {
+                height = 500;
+                width = 800;
+            }
+            Image scaledBackground = background.getScaledInstance(width, height, BufferedImage.SCALE_SMOOTH);
+            ImageIcon bkicon = new ImageIcon(scaledBackground);
+            setContentPane(new JLabel(bkicon));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -223,7 +241,8 @@ public class QueryFrame extends javax.swing.JFrame {
         jLabel14.setText("VVV");
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 180, -1));
 
-//        BufferedImage background = ImageIO.read("../../lib/Supervet.png");
+
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -426,7 +445,6 @@ public class QueryFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
-    private javax.swing.JFrame JBackground;
     // End of variables declaration//GEN-END:variables
 
 
