@@ -18,6 +18,12 @@ import java.util.Scanner;
  * returned data from the Queries. Currently the eventHandlers in QueryFrame call these
  * functions in order to run the Queries.
  */
+
+// LIST OF IMPROVEMENTS:
+//
+// 14 new queries are added to the application to facilitate different user activity. This includes
+// queries that use like, aggregates, parameters, and insert or update statements.
+
 public class QueryRunner {
 
     
