@@ -53,7 +53,7 @@ public class QueryRunner {
         Date date = new Date();
         String currentDateTime = formatter.format(date);
         String query1 = "INSERT INTO customer " +
-                "(customerID, createdAt, address, city, state, zip_code, email, first_name, last_name)" +
+                "(customerID, createdAt, address, city, state, zip_code, email, first_name, last_name) " +
                 "VALUES (?, '" +
                 currentDateTime +
                 "', ?, ?, ?, ?, ?, ?, ?);";
@@ -63,7 +63,7 @@ public class QueryRunner {
 
         // query 2: create new pet to pet table.
         String query2 = "INSERT INTO pet " +
-                "(petID, createdAt, customerID, name, breed)" +
+                "(petID, createdAt, customerID, name, breed) " +
                 "VALUES (?, '" +
                 currentDateTime +
                 "', ?, ?, ?);";
@@ -73,7 +73,7 @@ public class QueryRunner {
 
         // query 3: insert a new prescription to prescription table. takes in prescriptionID, petID, status and vetID as user input.
         String query3 = "INSERT INTO prescription " +
-                "(prescriptionID, petID, status, createdAt, vetID)" +
+                "(prescriptionID, petID, status, createdAt, vetID) " +
                 "VALUES (?, ?, ?, '" +
                 currentDateTime +
                 "', ?);";
@@ -102,6 +102,19 @@ public class QueryRunner {
         m_queryArray.add(new QueryData(query4, new String [] {
                 "customer's email"}, new boolean [] {false},
                 false, true));
+
+        // query 5: insert a new sale to sale table. takes in saleID, description, and employeeID as user input
+        String query5 = "INSERT INTO sale " +
+                "(saleID, description, createdAt, updatedAt, employeeID) " +
+                "VALUES (?, ?, '" +
+                currentDateTime +
+                "', '" +
+                currentDateTime +
+                "', ?);";
+        System.out.println(query5);
+        m_queryArray.add(new QueryData(query5, new String [] {
+                "sale's ID", "description", "employeeID"}, new boolean [] {false, false, false},
+                true, true));
 
 
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
