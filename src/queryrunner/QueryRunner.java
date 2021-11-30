@@ -312,18 +312,15 @@ public class QueryRunner {
     private int m_updateAmount;
             
     /**
+     * Run main method with '-console' argument for console interface
      * @param args the command line arguments
      */
-    
 
-    
     public static void main(String[] args) {
-        // TODO code application logic here
         final QueryRunner queryrunner = new QueryRunner();
         if (args.length == 0) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-
                     new QueryFrame(queryrunner).setVisible(true);
                 }            
             });
@@ -335,8 +332,6 @@ public class QueryRunner {
                     }
                 });
 
-
-                
             }
         }
     }    

@@ -2,15 +2,18 @@ package queryrunner;
 import java.util.Scanner;
 
 /**
- * Query runner console application
+ * Query runner console interface application
  * @author Duc Vo
+ * @version 1.0.0
  */
 public class QueryConsole {
+   public QueryConsole() {
+      this.qr = new QueryRunner();
+      new QueryConsole(qr);
+   }
    public QueryConsole(QueryRunner queryrunnerObj) {
       qr = queryrunnerObj;
-      int queryChoice = 1;
-      int numParams;
-      int numberQueries;
+      int queryChoice, numParams, numQueries;
       String [] paramString;
       Scanner keyboard = new Scanner(System.in);  // Create a Scanner object
       String hostname = "cs100.seattleu.edu";
@@ -19,13 +22,25 @@ public class QueryConsole {
       String database = "mm_cpsc502101team01";
 
       welcome();
+      System.out.printf("Press Enter to use default DATABASE credential ");
+      if (keyboard.nextLine().length() != 0) {
+         System.out.print("Enter hostname: ");
+         hostname = keyboard.nextLine();
+         System.out.print("Enter username: ");
+         username = keyboard.nextLine();
+         System.out.print("Enter password: ");
+         password = keyboard.nextLine();
+         System.out.print("Enter database: ");
+         database = keyboard.nextLine();
+      }
 
-      connect(hostname, username, password, database);
+      if (!connect(hostname, username, password, database))
+         return; // quit program if fail to connect to database
 
       do {
-         numberQueries = qr.GetTotalQueries();
+         numQueries = qr.GetTotalQueries();
          System.out.println("QUERY MENU: ");
-         for (int i=0; i < numberQueries; i++)
+         for (int i=0; i < numQueries; i++)
             System.out.printf("Query %d - %s...\n" ,
                     (i+1),
                     qr.GetQueryText(i).substring(0,20));
@@ -58,6 +73,24 @@ public class QueryConsole {
       goodbye();
    }
 
+   /**
+    * This main method run the query console app directly in this class.
+    * The query console app could be run in QueryRunner by passing '-console'
+    * as argument in main method
+    * @param args
+    */
+   public static void main(String[] args) {
+      new QueryConsole();
+   }
+
+   /**
+    *
+    * @param host host name
+    * @param user database username
+    * @param pass database password
+    * @param database default database name
+    * @return connection status (boolean)
+    */
    private boolean connect(String host, String user, String pass,
                            String database) {
       boolean connectStatus = qr.Connect(host, user, pass, database);
@@ -68,6 +101,10 @@ public class QueryConsole {
       return connectStatus;
    }
 
+   /**
+    * Disconnect from database
+    * @return disconnect status (boolean)
+    */
    private boolean disconnect() {
       boolean disconnectStatus = qr.Disconnect();
       System.out.print(disconnectStatus?"Successfully":"Failed");
@@ -76,6 +113,13 @@ public class QueryConsole {
       return disconnectStatus;
    }
 
+   /**
+    * Determine if the query is action or non action, execute and display
+    * result data or updated number of rows
+    * @param queryChoice chosen query from menu
+    * @param parmstring query parameters
+    * @return execution status
+    */
    private boolean executeQuery(int queryChoice, String [] parmstring) {
       boolean status;
       if (qr.isActionQuery(queryChoice)) {
@@ -88,6 +132,10 @@ public class QueryConsole {
       return status;
    }
 
+   /**
+    * Print executed query data for non action query
+    * @param status execution status
+    */
    private void printExecuteQueryData(boolean status) {
       String [] headers;
       String [][] allData;
@@ -112,6 +160,11 @@ public class QueryConsole {
             }
       } else System.out.println(qr.GetError());
    }
+
+   /**
+    * Print update query result, number of updated rows if success
+    * @param status execution status
+    */
    private void printUpdateQueryData(boolean status) {
       if (status) {
          int numRowUpdated = qr.GetUpdateAmount();
@@ -120,55 +173,25 @@ public class QueryConsole {
       } else System.out.println(qr.GetError());
    }
 
+   /**
+    * Welcome message
+    */
    private void welcome() {
       System.out.printf("WELCOME TO %s\n", qr.GetProjectTeamApplication());
       System.out.println("==========================================");
    }
 
+   /**
+    * Goodbye message
+    */
    private void goodbye() {
       System.out.println("==========================================");
       System.out.printf("THANK YOU FOR CHOOSING %s\n",
               qr.GetProjectTeamApplication());
    }
 
+   /**
+    * Hold querry runner object
+    */
    private QueryRunner qr; // hold query runner object
 }
-
-//    You need to determine if it is a parameter query. If it is, then
-
-//    you will need to ask the user to put in the values for the Parameters in your query
-//    you will then call ExecuteQuery or ExecuteUpdate (depending on whether it is an action query or regular query)
-//    if it is a regular query, you should then get the data by calling GetQueryData. You should then display this
-//    output.
-//    If it is an action query, you will tell how many row's were affected by it.
-//
-//    This is Psuedo Code for the task:
-//    Connect()
-//    n = GetTotalQueries()
-//    for (i=0;i < n; i++)
-//    {
-//       Is it a query that Has Parameters
-//       Then
-//           amt = find out how many parameters it has
-//           Create a paramter array of strings for that amount
-//           for (j=0; j< amt; j++)
-//              Get The Paramater Label for Query and print it to console. Ask the user to enter a value
-//              Take the value you got and put it into your parameter array
-//           If it is an Action Query then
-//              call ExecuteUpdate to run the Query
-//              call GetUpdateAmount to find out how many rows were affected, and print that value
-//           else
-//               call ExecuteQuery
-//               call GetQueryData to get the results back
-//               print out all the results
-//           end if
-//      }
-//    Disconnect()
-
-
-// NOTE - IF THERE ARE ANY ERRORS, please print the Error output
-// NOTE - The QueryRunner functions call the various JDBC Functions that are in QueryJDBC. If you would rather code JDBC
-// functions directly, you can choose to do that. It will be harder, but that is your option.
-// NOTE - You can look at the QueryRunner API calls that are in QueryFrame.java for assistance. You should not have to
-//    alter any code in QueryJDBC, QueryData, or QueryFrame to make this work.
-//                System.out.println("Please write the non-gui functionality");
