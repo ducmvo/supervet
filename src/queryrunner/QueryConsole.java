@@ -137,14 +137,14 @@ public class QueryConsole {
     * @param status execution status
     */
    private void printExecuteQueryData(boolean status) {
-      String [] headers;
-      String [][] allData;
       if (status) {
          headers = qr.GetQueryHeaders();
          allData = qr.GetQueryData();
-         for (String label: headers ) {
-            System.out.print(label);
-            System.out.print("  |  ");
+         int [] colWidth = getColWidth();
+         System.out.println();
+
+         for (int col = 0; col < headers.length; col++) {
+            printCol(col, headers, colWidth);
          }
          System.out.println();
          if(allData.length < 1 ) {
@@ -152,9 +152,8 @@ public class QueryConsole {
          }
          else
             for (String[] row : allData) {
-               for (String col: row) {
-                  System.out.print(col!=""?col:"null");
-                  System.out.print("  |  ");
+               for (int col = 0; col < row.length; col++) {
+                  printCol(col, row, colWidth);
                }
                System.out.println();
             }
@@ -174,6 +173,51 @@ public class QueryConsole {
    }
 
    /**
+    * print a column value
+    * @param index column index
+    * @param row column data to be print
+    * @param colWidth maximum widths for columns
+    */
+   private void printCol(int index, String[] row, int[] colWidth) {
+      int maxWidth = Math.min(colWidth[index], row[index].length());
+      int left = (colWidth[index] - maxWidth) / 2;
+      String leftAlign = left > 0 ?  "%" + left + "s" : "%s";
+      String alignedText = String.format(
+              leftAlign + row[index].substring(0, maxWidth),
+              "");
+      if (colWidth[index] < row[index].length()) {
+         alignedText = alignedText.substring(0, alignedText.length() - 3) +
+                 "...";
+      }
+      String str = "%-" +  colWidth[index] + "s | ";
+      System.out.printf(str, alignedText);
+   }
+
+   /**
+    * get maximum column width to print to console
+    * @return array of corresponding max width for each column
+    */
+   private int[] getColWidth() {
+      int[] colWidth = new int[allData[0].length];
+      for (int col = 0; col < headers.length; col++) {
+         colWidth[col] = headers[col].length();
+      }
+
+      for (int row = 0; row < allData.length; row++) {
+         for (int col = 0; col < allData[row].length; col++) {
+            colWidth[col] = Math.max(colWidth[col],
+                    allData[row][col].length());
+         }
+      }
+
+      for (int col = 0; col < headers.length; col++) {
+         colWidth[col] = Math.min(colWidth[col], MAX_COL_WIDTH);
+      }
+
+      return colWidth;
+   }
+
+   /**
     * Welcome message
     */
    private void welcome() {
@@ -190,8 +234,8 @@ public class QueryConsole {
               qr.GetProjectTeamApplication());
    }
 
-   /**
-    * Hold querry runner object
-    */
-   private QueryRunner qr; // hold query runner object
+   private QueryRunner qr;       // QueryRunner instance
+   private String[] headers;     // Executed query column label
+   private String[][] allData;   // Executed query data
+   private final int MAX_COL_WIDTH = 30; // Max length to print for column value
 }
