@@ -213,7 +213,7 @@ public class QueryRunner {
                 false, false));
 
         // query 14: display the product table
-        String query14 = "SELECT * FROM Products;";
+        String query14 = "SELECT * FROM Product;";
         m_queryArray.add(new QueryData(query14, new String [] {}, new boolean [] {},
                 false, false));
 
