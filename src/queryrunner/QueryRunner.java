@@ -61,6 +61,17 @@ public class QueryRunner {
         // last name as inputs.
         // some parameters are left blank since exceeding 8 parameters  would
         // fail running the program.
+
+        // query 13: display the customer table
+        String query13 = "SELECT * FROM Customer;";
+        m_queryArray.add(new QueryData(query13, new String [] {}, new boolean [] {},
+                false, false));
+
+        // query 14: display the product table
+        String query14 = "SELECT * FROM Product;";
+        m_queryArray.add(new QueryData(query14, new String [] {}, new boolean [] {},
+                false, false));
+
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDateTime = formatter.format(date);
@@ -213,15 +224,6 @@ public class QueryRunner {
                 "Pet's name"}, new boolean [] {true},
                 false, true));
 
-        // query 13: display the customer table
-        String query13 = "SELECT * FROM Customer;";
-        m_queryArray.add(new QueryData(query13, new String [] {}, new boolean [] {},
-                false, false));
-
-        // query 14: display the product table
-        String query14 = "SELECT * FROM Product;";
-        m_queryArray.add(new QueryData(query14, new String [] {}, new boolean [] {},
-                false, false));
 
         /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
         /*String query2 = "SELECT petID,\n" +
