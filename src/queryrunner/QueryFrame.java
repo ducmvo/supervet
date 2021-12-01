@@ -12,6 +12,8 @@ package queryrunner;
  * @author mckeem
  */
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,19 @@ public class QueryFrame extends javax.swing.JFrame {
  */
     public QueryFrame(QueryRunner queryrunnerObj) {
         initComponents();
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                int height = getContentPane().getHeight();
+                int width = getContentPane().getWidth();
+                Image scaledBackground = background.getScaledInstance(width, height, BufferedImage.SCALE_SMOOTH);
+                ImageIcon bkicon = new ImageIcon(scaledBackground);
+
+                setContentPane(new JLabel(bkicon));
+                System.out.println("resized");
+            }
+        });
         m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12};        
         m_textvals = new JTextField[] { jTextField5, jTextField6,jTextField7,jTextField8,jTextField9,jTextField10,jTextField11,jTextField12};
         m_queryrunner = queryrunnerObj;
@@ -96,15 +111,15 @@ public class QueryFrame extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
 
-        BufferedImage background = null;
         try {
             background = ImageIO.read(new File("lib/Supervet.png"));
-            Dimension Size = getContentPane().getSize();
+            Dimension Size = jPanel1.getSize();
+
             int width = (int) Size.getWidth();
             int height = (int) Size.getHeight();
             if (height == 0 && width == 0) {
-                height = 500;
-                width = 800;
+                width = 1024;
+                height = 768;
             }
             Image scaledBackground = background.getScaledInstance(width, height, BufferedImage.SCALE_SMOOTH);
             ImageIcon bkicon = new ImageIcon(scaledBackground);
@@ -112,6 +127,7 @@ public class QueryFrame extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        getContentPane().setSize(1024, 768);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -408,7 +424,6 @@ public class QueryFrame extends javax.swing.JFrame {
         }                
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jConnectButton;
     private javax.swing.JButton jBtnRunQuery;
@@ -447,6 +462,7 @@ public class QueryFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
+    private BufferedImage background = null;
 
     private final JLabel[] m_parmlabels;
     private JTextField [] m_textvals;
