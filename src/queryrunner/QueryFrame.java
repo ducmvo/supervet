@@ -32,19 +32,7 @@ public class QueryFrame extends javax.swing.JFrame {
  */
     public QueryFrame(QueryRunner queryrunnerObj) {
         initComponents();
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                int height = getContentPane().getHeight();
-                int width = getContentPane().getWidth();
-                Image scaledBackground = background.getScaledInstance(width, height, BufferedImage.SCALE_SMOOTH);
-                ImageIcon bkicon = new ImageIcon(scaledBackground);
 
-                setContentPane(new JLabel(bkicon));
-                System.out.println("resized");
-            }
-        });
         m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12};        
         m_textvals = new JTextField[] { jTextField5, jTextField6,jTextField7,jTextField8,jTextField9,jTextField10,jTextField11,jTextField12};
         m_queryrunner = queryrunnerObj;
@@ -113,14 +101,8 @@ public class QueryFrame extends javax.swing.JFrame {
 
         try {
             background = ImageIO.read(new File("lib/Supervet.png"));
-            Dimension Size = jPanel1.getSize();
-
-            int width = (int) Size.getWidth();
-            int height = (int) Size.getHeight();
-            if (height == 0 && width == 0) {
-                width = 1024;
-                height = 768;
-            }
+            int width = 1024;
+            int height = 768;
             Image scaledBackground = background.getScaledInstance(width, height, BufferedImage.SCALE_SMOOTH);
             ImageIcon bkicon = new ImageIcon(scaledBackground);
             setContentPane(new JLabel(bkicon));
