@@ -1,4 +1,7 @@
 package queryrunner;
+import com.sun.javaws.IconUtil;
+import com.sun.tools.example.debug.tty.MessageOutput;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,8 +17,7 @@ public class QueryConsole {
    }
    public QueryConsole(QueryRunner queryrunnerObj) {
       qr = queryrunnerObj;
-      int queryChoice, numParams, numQueries;
-      String [] paramString;
+      int option;
       Scanner keyboard = new Scanner(System.in);  // Create a Scanner object
       String hostname = "cs100.seattleu.edu";
       String username = "mm_cpsc502101team01";
@@ -23,7 +25,7 @@ public class QueryConsole {
       String database = "mm_cpsc502101team01";
 
       welcome();
-      System.out.printf("Press Enter to use default DATABASE credential ");
+      System.out.printf("Use default database credential? (Enter/any-key) ");
       if (keyboard.nextLine().length() != 0) {
          System.out.print("Enter hostname: ");
          hostname = keyboard.nextLine();
@@ -39,12 +41,44 @@ public class QueryConsole {
          return; // quit program if fail to connect to database
 
       do {
+         System.out.println();
+         System.out.println("=========== MENU ==========");
+         System.out.println("1. Create Prescription");
+         System.out.println("2. Display Query Menu");
+         System.out.println("3. Quit");
+         System.out.println("===========================");
+         System.out.printf("Enter option: ");
+         option = keyboard.nextInt();
+         keyboard.nextLine();
+         System.out.println();
+         switch (option) {
+            case 1: {
+               createPrescription(keyboard);
+               break;
+            }
+            case 2: {
+               queryOption(keyboard);
+               break;
+            }
+            default: break;
+         }
+      } while (option != 3);
+
+      keyboard.close();
+      disconnect();
+      goodbye();
+   }
+
+   private void queryOption(Scanner keyboard) {
+      int numQueries, queryChoice, numParams;
+      String[] paramString;
+      do {
          numQueries = qr.GetTotalQueries();
-         System.out.println("QUERY MENU: ");
+         System.out.println("\nQUERY MENU: ");
          for (int i=0; i < numQueries; i++)
             System.out.printf("Query %d - %s\n" , (i+1), qr.getQueryName(i));
 
-         System.out.print("Enter Query Number: ");
+         System.out.print("\nEnter Query Number: ");
          queryChoice  = keyboard.nextInt() - 1;
          keyboard.nextLine();
 
@@ -64,14 +98,11 @@ public class QueryConsole {
                }
             }
 
-            executeQuery(queryChoice, paramString);
+            executeQuery(queryChoice, paramString, true);
          }
          System.out.print("Continues? (y/n) ");
       } while (keyboard.nextLine().toLowerCase().charAt(0) == 'y');
 
-      keyboard.close();
-      disconnect();
-      goodbye();
    }
 
    /**
@@ -121,14 +152,16 @@ public class QueryConsole {
     * @param parmstring query parameters
     * @return execution status
     */
-   private boolean executeQuery(int queryChoice, String [] parmstring) {
+   private boolean executeQuery(int queryChoice, String [] parmstring,
+                                boolean printResult) {
       boolean status;
       if (qr.isActionQuery(queryChoice)) {
          status = qr.ExecuteUpdate(queryChoice, parmstring);
-         printUpdateQueryData(status);
+         if (printResult) printUpdateQueryData(status);
       } else {
          status = qr.ExecuteQuery(queryChoice, parmstring);
-         printExecuteQueryData(status);
+         if (printResult) printExecuteQueryData(status, qr.GetQueryData(),
+                 qr.GetQueryHeaders());
       }
       return status;
    }
@@ -137,11 +170,10 @@ public class QueryConsole {
     * Print executed query data for non action query
     * @param status execution status
     */
-   private void printExecuteQueryData(boolean status) {
+   private void printExecuteQueryData(boolean status, String[][] allData,
+                                      String[] headers) {
       if (status) {
-         headers = qr.GetQueryHeaders();
-         allData = qr.GetQueryData();
-         int [] colWidth = getColWidth();
+         int [] colWidth = getColWidth(allData, headers);
          System.out.println();
 
          for (int col = 0; col < headers.length; col++) {
@@ -202,7 +234,7 @@ public class QueryConsole {
     * get maximum column width to print to console
     * @return array of corresponding max width for each column
     */
-   private int[] getColWidth() {
+   private int[] getColWidth(String[][] allData, String[] headers) {
       int[] colWidth = new int[allData[0].length];
       for (int col = 0; col < headers.length; col++) {
          colWidth[col] = headers[col].length();
@@ -243,21 +275,23 @@ public class QueryConsole {
               qr.GetProjectTeamApplication());
    }
 
-
-   private void createPrescription() {
-      // CREATE A PRESCRIPTION
-      // Select a Pet
-      // Select a Vet
-      // Create a Prescription
-
-      // CREATE PRESCRIPTION PRODUCT
-      // Select product, quantity, unit, description
-      String productID, quantity, unit, description;
+   private void createPrescription(Scanner keyboard) {
+      System.out.print("Create a new prescription? (y/n) ");
+      if(keyboard.nextLine().toLowerCase().charAt(0) != 'y') {
+         return; // End function
+      }
+      String productID, quantity, unit, description, petID, vetID, prescriptionID;
       ArrayList<String[]> preProds = new ArrayList<>();
       String[] preProd;
-      Scanner keyboard = new Scanner(System.in);
+
+
+      System.out.print("Enter vetID: ");
+      vetID = keyboard.nextLine();
+      System.out.print("Enter petID: ");
+      petID = keyboard.nextLine();
+      System.out.println("\n========= CREATE PRESCRIPTION =========");
       do {
-         System.out.print("Enter productID: ");
+         System.out.print("\nEnter productID: ");
          productID = keyboard.nextLine();
          System.out.print("Enter quantity: ");
          quantity = keyboard.nextLine();
@@ -267,10 +301,49 @@ public class QueryConsole {
          description = keyboard.nextLine();
          preProd = new String[] {productID, quantity, unit, description};
          preProds.add(preProd);
-         System.out.println("Add more drug? (y/n)");
+         System.out.println();
+         System.out.print("Add more drug? (y/n) ");
       } while (keyboard.nextLine().toLowerCase().charAt(0) == 'y');
-   }
 
+      System.out.println("============== PRESCRIPTION =============");
+      System.out.printf("Pet ID: %s\n", petID);
+
+      headers = new String[] {"productID", "quantity", "unit",
+              "description"};
+      allData = new String[preProds.size()][4];
+      for (int i = 0; i <  preProds.size(); i++) {
+         for (int j = 0; j < 4; j++){
+            allData[i][j] = preProds.get(i)[j];
+         }
+      }
+      printExecuteQueryData(true, allData, headers);
+
+      System.out.println("=========================================");
+      System.out.print("\nConfirm create prescription? (y/n) ");
+      if (keyboard.nextLine().toLowerCase().charAt(0) != 'y')
+         return;
+
+      System.out.println("\nCreating new prescription, please wait...\n");
+      // Create Prescription
+      executeQuery(4, new String [] {petID, "prescribed", vetID}, false);
+      // Retrieve last inserted prescriptionID
+      executeQuery(14, new String[] {}, false);
+      prescriptionID = qr.GetQueryData()[0][0];
+      // Create prescriptionProduct from the retrieved prescriptionID
+      for (int i = 0; i <  preProds.size(); i++) {
+         executeQuery(5, new String[]{
+             prescriptionID,
+             preProds.get(i)[0], //productID
+             preProds.get(i)[1], // quantity
+             preProds.get(i)[2], // unit
+             preProds.get(i)[3] // description
+        }, false);
+      }
+
+      System.out.printf("\nSuccessfully created new prescription, ID: %s\n",
+              prescriptionID);
+      // List Prescription items for created prescription
+   }
 
    private QueryRunner qr;       // QueryRunner instance
    private String[] headers;     // Executed query column label

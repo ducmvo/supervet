@@ -23,6 +23,10 @@ import java.util.Scanner;
 //
 // 14 new queries are added to the application to facilitate different user activity. This includes
 // queries that use like, aggregates, parameters, and insert or update statements.
+//
+// Query labels were added
+
+
 
 public class QueryRunner {
 
@@ -33,41 +37,14 @@ public class QueryRunner {
         m_updateAmount = 0;
         m_queryArray = new ArrayList<>();
         m_error="";
-
         this.m_projectTeamApplication="SUPER-VET ANIMAL HOSPITAL";
-        
-        // Each row that is added to m_queryArray is a separate query.  It
-        // does not work on Stored procedure calls.
-        // The 'new' Java keyword is a way of initializing the data that
-        // will be added to QueryArray. Please do not change
-        // Format for each row of m_queryArray is:
-        // (QueryText, ParamaterLabelArray[], LikeParameterArray[],
-        // IsItActionQuery, IsItParameterQuery)
-        
-        //    QueryText is a String that represents your query.
-        //    It can be anything but Stored Procedure
-        //    Parameter Label Array  (e.g. Put in null if there is no
-        //    Parameters in your query, otherwise put in the Parameter Names)
-        //    LikeParameter Array  is an array I regret having to add, but it
-        //    is necessary to tell QueryRunner which parameter has a LIKE Clause.
-        //    If you have no parameters, put in null.
-        //    Otherwise put in false for parameters that don't use 'like'
-        //    and true for ones that do.
-        //    IsItActionQuery (e.g. Mark it true if it is, otherwise false)
-        //    IsItParameterQuery (e.g.Mark it true if it is, otherwise false)
-
-        // query 1: insert new customer to customer table. takes in
-        // customerID, address, city, state, zipcode, email, first name,  and
-        // last name as inputs.
-        // some parameters are left blank since exceeding 8 parameters  would
-        // fail running the program.
-
         m_querynames = new String[]{
-                "Display all customer info", "Display product info ",
-                "Create Customer", "Create Pet", "Create Prescription",
-                "Create Medication", "Pull pet meds by email", "Create sale",
-                "Create sale log", "List customer med history", "Find prod by name",
-                "Change prod price", "Find vet by name", "Find pet by name"
+            "Display all customer info", "Display product info ",
+            "Create Customer", "Create Pet", "Create Prescription",
+            "Create Medication", "Pull pet meds by email", "Create sale",
+            "Create sale log", "List customer med history", "Find prod by name",
+            "Change prod price", "Find vet by name", "Find pet by name",
+            "Retrieve most recent prescriptionID", "List Prescription items"
         };
 
         // query 13: display the customer table
@@ -109,8 +86,8 @@ public class QueryRunner {
         // query 3: insert a new prescription to prescription table. Takes
         // in prescriptionID, petID, status and vetID as user input.
         String query3 = "INSERT INTO Prescription \n" +
-                "(prescriptionID, petID, status, createdAt, vetID) " +
-                "VALUES (?, ?, ?, '" +
+                "(petID, status, createdAt, vetID) " +
+                "VALUES (?, ?, '" +
                 currentDateTime +
                 "', ?);";
         m_queryArray.add(new QueryData(query3, new String [] {
@@ -232,54 +209,15 @@ public class QueryRunner {
                 "Pet's name"}, new boolean [] {true},
                 false, true));
 
-
-        /* 2. Calculate Total Prescription Cost for each pet of a customer, provided customerID */
-        /*String query2 = "SELECT petID,\n" +
-            "Pet.name AS `pet_name`,\n" +
-            "ROUND(SUM(PrescriptionProduct.quantity * Product.price),2) AS `Total Prescription Cost`\n" +
-            "FROM Prescription\n" +
-            "JOIN PrescriptionProduct USING (prescriptionID)\n" +
-            "JOIN Product USING (productID)\n" +
-            "JOIN Pet USING (petID)\n" +
-            "JOIN Customer USING (customerID)\n" +
-            "WHERE customerID = ?\n" +
-            "GROUP BY petID\n" +
-            "ORDER BY Pet.name;";
-        // test customerID: 1781
-
-        m_queryArray.add(new QueryData(query2, new String [] {
-                "customerID"}, new boolean [] {false},
-                false, true));*/
-
-
-        /* 3. Find out average prescription cost for a pet of customers who live in Washington state */
-        /*String query3 = "SELECT ROUND(AVG(prescription_cost), 2) " +
-            "AS `Average State Prescription Cost` FROM (\n" +
-            "SELECT SUM(Product.price * PrescriptionProduct.quantity) " +
-            "AS prescription_cost \n" +
-            "FROM Customer \n" +
-            "JOIN Pet USING (customerID)\n" +
-            "JOIN Prescription USING (petID)\n" +
-            "JOIN PrescriptionProduct USING (prescriptionID)\n" +
-            "JOIN Product USING (productID)\n" +
-            "WHERE state = ?\n" +
-            "GROUP BY prescriptionID\n" +
-            ") AS PrescriptionCost;";
-        m_queryArray.add(new QueryData(query3, new String [] {
-                "State"}, new boolean [] {false},
-                false, true));*/
-
-
-
-//        String query4 =  "";
-//        m_queryArray.add(new QueryData("insert into contact (contact_id, contact_name, contact_salary) values (?,?,?)",new String [] {"CONTACT_ID", "CONTACT_NAME", "CONTACT_SALARY"}, new boolean [] {false, false, false}, true, true));// THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-
-
-        /*m_queryArray.add(new QueryData("Select * from Vet where vetID = ?;",
-                new String [] {"vetID"}, new boolean [] {false},  false,
-                true));*/
-//        m_queryArray.add(new QueryData("Select * from contact where contact_name like ?", new String [] {"CONTACT_NAME"}, new boolean [] {true}, false, true));        // THIS NEEDS TO CHANGE FOR YOUR APPLICATION
-
+        String query15 = "SELECT prescriptionID FROM Prescription ORDER BY prescriptionID DESC LIMIT 1;";
+        m_queryArray.add(new QueryData(query15,
+                new String [] {}, new boolean [] {},
+                false, false));
+        String query16 = "SELECT * FROM PrescriptionProduct WHERE " +
+                "prescriptionID = ?;";
+        m_queryArray.add(new QueryData(query16,
+                new String [] {"prescriptionID"}, new boolean [] {false},
+                false, true));
     }
        
 
