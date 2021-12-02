@@ -174,8 +174,8 @@ public class QueryRunner {
                 currentDateTime +
                 "', ?);";
         m_queryArray.add(new QueryData(query11, new String [] {
-                "prescription's ID", "pet's ID", "status", "vetID"},
-                new boolean [] {false, false, false, false},
+                "pet's ID", "status", "vetID"},
+                new boolean [] {false, false, false},
                 true, true));
         m_querynames[10] = "Create Prescription";
 
