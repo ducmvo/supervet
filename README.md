@@ -16,6 +16,11 @@ git clone https://github.com/supervet-su/supervet.git
 #### *File/Project Structure/Libraries*  
 <img width="893" alt="Screen Shot 2021-11-28 at 11 39 56 AM" src="https://user-images.githubusercontent.com/61364158/143783361-fe917b67-233d-433c-9aee-1b70bac97651.png">
 
+#### *File/Project Structure/Modules*
+May need to add the supervet.iml file under modules if you are getting configuration errors while trying to build the code.
+![Screenshot 2021-12-01 181251](https://user-images.githubusercontent.com/8883952/144345102-8fa0e7cf-c923-45bb-8eb8-e0916c636212.png)
+![Screenshot 2021-12-01 181325](https://user-images.githubusercontent.com/8883952/144345178-10a8e7e9-4d57-461e-bf57-e34770389232.png)
+
 ## CONTRIBUTION
 ### Pull the latest from main
 ```git
