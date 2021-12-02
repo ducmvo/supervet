@@ -34,7 +34,7 @@ public class QueryRunner {
         m_queryArray = new ArrayList<>();
         m_error="";
 
-        this.m_projectTeamApplication="SUPER-VET ANIMAL HOSPITAL";
+        this.m_projectTeamApplication="SUPERVET";
         
         // Each row that is added to m_queryArray is a separate query.  It
         // does not work on Stored procedure calls.
@@ -146,8 +146,10 @@ public class QueryRunner {
             "JOIN Product USING (productID)\n" +
             "JOIN Pet USING (petID)\n" +
             "JOIN Customer USING (customerID)\n" +
-            "WHERE Customer.email = ? \n" +
+            "WHERE Customer.email = '?' \n" +
             "ORDER BY Pet.name;";
+
+        System.out.println(query5);
 
         m_queryArray.add(new QueryData(query5, new String [] {
                 "customer's email"}, new boolean [] {false},
