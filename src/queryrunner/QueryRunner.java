@@ -169,8 +169,8 @@ public class QueryRunner {
         // query 11: insert a new prescription to prescription table. Takes
         // in prescriptionID, petID, status and vetID as user input.
         String query11 = "INSERT INTO Prescription \n" +
-                "(prescriptionID, petID, status, createdAt, vetID) " +
-                "VALUES (?, ?, ?, '" +
+                "(petID, status, createdAt, vetID) " +
+                "VALUES (?, ?, '" +
                 currentDateTime +
                 "', ?);";
         m_queryArray.add(new QueryData(query11, new String [] {
