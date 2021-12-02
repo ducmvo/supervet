@@ -18,20 +18,18 @@ import java.util.Scanner;
  * which will enable MYSQL queries to be executed. It also has functions to provide the
  * returned data from the Queries. Currently the eventHandlers in QueryFrame call these
  * functions in order to run the Queries.
+ *
+ * LIST OF IMPROVEMENTS:
+ * 14 new queries are added to the application to facilitate different user activity.
+ * This includes queries that use like, aggregates, parameters, and insert or
+ * update statements.
+ * Query labels were added
+ * Console application was implemented using QueryConsole class
+ *
  */
-
-// LIST OF IMPROVEMENTS:
-//
-// 14 new queries are added to the application to facilitate different user activity. This includes
-// queries that use like, aggregates, parameters, and insert or update statements.
-//
-// Query labels were added
-
-
 
 public class QueryRunner {
 
-    
     public QueryRunner()
     {
         this.m_jdbcData = new QueryJDBC();
@@ -41,33 +39,6 @@ public class QueryRunner {
         int max_queries=20;
 
         this.m_projectTeamApplication="SUPERVET";
-        
-        // Each row that is added to m_queryArray is a separate query.  It
-        // does not work on Stored procedure calls.
-        // The 'new' Java keyword is a way of initializing the data that
-        // will be added to QueryArray. Please do not change
-        // Format for each row of m_queryArray is:
-        // (QueryText, ParamaterLabelArray[], LikeParameterArray[],
-        // IsItActionQuery, IsItParameterQuery)
-        
-        //    QueryText is a String that represents your query.
-        //    It can be anything but Stored Procedure
-        //    Parameter Label Array  (e.g. Put in null if there is no
-        //    Parameters in your query, otherwise put in the Parameter Names)
-        //    LikeParameter Array  is an array I regret having to add, but it
-        //    is necessary to tell QueryRunner which parameter has a LIKE Clause.
-        //    If you have no parameters, put in null.
-        //    Otherwise put in false for parameters that don't use 'like'
-        //    and true for ones that do.
-        //    IsItActionQuery (e.g. Mark it true if it is, otherwise false)
-        //    IsItParameterQuery (e.g.Mark it true if it is, otherwise false)
-
-        // query 1: insert new customer to customer table. takes in
-        // customerID, address, city, state, zipcode, email, first name,  and
-        // last name as inputs.
-        // some parameters are left blank since exceeding 8 parameters  would
-        // fail running the program.
-
         m_querynames = new String[max_queries];
 
         // query 1: display the customer table
@@ -259,36 +230,22 @@ public class QueryRunner {
                 "new price", "product's ID"}, new boolean [] {false, false},
                 true, true));
         m_querynames[14] = "Change prod price";
-        
-        // query 11: search vet by name. takes in vet's first name as user input
-        String query11 = "SELECT * FROM Vet " +
-                "WHERE first_name LIKE ?;";
-        m_queryArray.add(new QueryData(query11, new String [] {
-                "Vet's name"}, new boolean [] {true},
-                false, true));
 
-        // query 12: search pet by name. takes in pet's name as user input
-        String query12 = "SELECT * FROM Pet " +
-                "JOIN Customer USING (customerID)\n" +
-                "WHERE Pet.name LIKE ?;";
-        m_queryArray.add(new QueryData(query12, new String [] {
-                "Pet's name"}, new boolean [] {true},
-                false, true));
-        
         // Get most recent prescriptionID
-        String query15 = "SELECT prescriptionID FROM Prescription ORDER BY prescriptionID DESC LIMIT 1;";
-        m_queryArray.add(new QueryData(query15,
+        String query16 = "SELECT prescriptionID FROM Prescription ORDER BY " +
+                "prescriptionID DESC LIMIT 1;";
+        m_queryArray.add(new QueryData(query16,
                 new String [] {}, new boolean [] {},
                 false, false));
         m_querynames[15] = "Retrieve most recent prescriptionID";
 
-        // List all item for a presciptionID
-        String query16 = "SELECT * FROM PrescriptionProduct WHERE " +
+        // List all items for a prescription
+        // takes in prescriptionID as input
+        String query17 = "SELECT * FROM PrescriptionProduct WHERE " +
                 "prescriptionID = ?;";
-        m_queryArray.add(new QueryData(query16,
+        m_queryArray.add(new QueryData(query17,
                 new String [] {"prescriptionID"}, new boolean [] {false},
                 false, true));
-       
         m_querynames[16] = "List prescription items";
     }
        

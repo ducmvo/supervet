@@ -1,30 +1,38 @@
 package queryrunner;
-import com.sun.javaws.IconUtil;
-import com.sun.tools.example.debug.tty.MessageOutput;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Query runner console interface application
+ * 1. User can connect to database with input credential
+ * 2. User can choose from a preset queries to run
+ * 3. User can create a complete prescription with all prescribed drugs
+ *
  * @author Duc Vo
  * @version 1.0.0
  */
 public class QueryConsole {
+   /**
+    * Default constructor create a new QueryRunner object
+    * and overload a new QueryConsole with this QueryRynner object
+    */
    public QueryConsole() {
       this.qr = new QueryRunner();
       new QueryConsole(qr);
    }
-   public QueryConsole(QueryRunner queryrunnerObj) {
-      qr = queryrunnerObj;
+
+   /**
+    * This constructor executes the main program functionalities
+    * @param queryRunnerObj Query Runner object
+    */
+   public QueryConsole(QueryRunner queryRunnerObj) {
+      qr = queryRunnerObj;
       int option;
       Scanner keyboard = new Scanner(System.in);  // Create a Scanner object
-      String hostname = "cs100.seattleu.edu";
-      String username = "mm_cpsc502101team01";
-      String password = "mm_cpsc502101team01Pass-";
-      String database = "mm_cpsc502101team01";
 
       welcome();
+
+      // Determine if user would like to use default database credential
       System.out.printf("Use default database credential? (Enter/any-key) ");
       if (keyboard.nextLine().length() != 0) {
          System.out.print("Enter hostname: ");
@@ -36,9 +44,10 @@ public class QueryConsole {
          System.out.print("Enter database: ");
          database = keyboard.nextLine();
       }
-
+      // connect to database with provided credential
+      // quit program if fail to connect to database
       if (!connect(hostname, username, password, database))
-         return; // quit program if fail to connect to database
+         return;
 
       do {
          System.out.println();
@@ -57,7 +66,7 @@ public class QueryConsole {
                break;
             }
             case 2: {
-               queryOption(keyboard);
+               selectQueryOption(keyboard);
                break;
             }
             default: break;
@@ -69,7 +78,12 @@ public class QueryConsole {
       goodbye();
    }
 
-   private void queryOption(Scanner keyboard) {
+   /**
+    * This method let users choose from preset queries to run.
+    * User might need to input values depends on query types
+    * @param keyboard Scanner object
+    */
+   private void selectQueryOption(Scanner keyboard) {
       int numQueries, queryChoice, numParams;
       String[] paramString;
       do {
@@ -116,7 +130,7 @@ public class QueryConsole {
    }
 
    /**
-    *
+    * Connect to database
     * @param host host name
     * @param user database username
     * @param pass database password
@@ -206,7 +220,7 @@ public class QueryConsole {
    }
 
    /**
-    * print a column value
+    * Print a column value with calculated width
     * @param index column index
     * @param row column data to be print
     * @param colWidth maximum widths for columns
@@ -275,6 +289,10 @@ public class QueryConsole {
               qr.GetProjectTeamApplication());
    }
 
+   /**
+    * This method create a complete prescription with all drugs for a petID
+    * @param keyboard Scanner object
+    */
    private void createPrescription(Scanner keyboard) {
       System.out.print("Create a new prescription? (y/n) ");
       if(keyboard.nextLine().toLowerCase().charAt(0) != 'y') {
@@ -284,7 +302,7 @@ public class QueryConsole {
       ArrayList<String[]> preProds = new ArrayList<>();
       String[] preProd;
 
-
+      // TODO: Build authentication where vet can login and select pet
       System.out.print("Enter vetID: ");
       vetID = keyboard.nextLine();
       System.out.print("Enter petID: ");
@@ -324,14 +342,17 @@ public class QueryConsole {
          return;
 
       System.out.println("\nCreating new prescription, please wait...\n");
+
       // Create Prescription
-      executeQuery(4, new String [] {petID, "prescribed", vetID}, false);
+      executeQuery(10, new String [] {petID, "prescribed", vetID}, false);
+
       // Retrieve last inserted prescriptionID
-      executeQuery(14, new String[] {}, false);
+      executeQuery(15, new String[] {}, false);
       prescriptionID = qr.GetQueryData()[0][0];
-      // Create prescriptionProduct from the retrieved prescriptionID
+
+      // Create prescriptionProducts from the retrieved prescriptionID
       for (int i = 0; i <  preProds.size(); i++) {
-         executeQuery(5, new String[]{
+         executeQuery(11, new String[]{
              prescriptionID,
              preProds.get(i)[0], //productID
              preProds.get(i)[1], // quantity
@@ -349,4 +370,8 @@ public class QueryConsole {
    private String[] headers;     // Executed query column label
    private String[][] allData;   // Executed query data
    private final int MAX_COL_WIDTH = 30; // Max length to print for column value
+   private String hostname = "cs100.seattleu.edu";
+   private String username = "mm_cpsc502101team01";
+   private String password = "mm_cpsc502101team01Pass-";
+   private String database = "mm_cpsc502101team01";
 }

@@ -29,8 +29,15 @@ public class QueryFrame extends javax.swing.JFrame {
     public QueryFrame(QueryRunner queryrunnerObj) {
         initComponents();
 
-        m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12, jLabel13};
-        m_textvals = new JTextField[] { jTextField5, jTextField6,jTextField7,jTextField8,jTextField9,jTextField10,jTextField11,jTextField12};
+        m_parmlabels = new JLabel[]{
+                jLabel1, jLabel2, jLabel3,
+                jLabel4, jLabel9, jLabel10,
+                jLabel11, jLabel12, jLabel13};
+        m_textvals = new JTextField[] {
+                jTextField5, jTextField6,
+                jTextField7, jTextField8,
+                jTextField9, jTextField10,
+                jTextField11,jTextField12};
         m_queryrunner = queryrunnerObj;
         // Find out how many queries there are and set up combo box
         // If it is a grid query, then enable jtable
@@ -90,6 +97,10 @@ public class QueryFrame extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+
+        jTextHostname.setText("cs100.seattleu.edu");
+        jTextFieldUser.setText("mm_cpsc502101team01");
+        jTextFieldDatabase.setText("mm_cpsc502101team01");
 
         try {
             background = ImageIO.read(new File("lib/Supervet.png"));
@@ -249,9 +260,14 @@ public class QueryFrame extends javax.swing.JFrame {
         jTextArea2.setText("");      
         
         if (jConnectButton.getText() == "Connect")
-        {            
+        {
+            System.out.printf("%s\n%s\n%s\n%s\n",
+                    this.jTextHostname.getText(),
+                    this.jTextFieldUser.getText(),
+                    String.valueOf(this.jPasswordField1.getPassword()),
+                    this.jTextFieldDatabase.getText());
 //            bOK = m_queryrunner.Connect(this.jTextHostname.getText(), this.jTextFieldUser.getText(), String.valueOf(this.jPasswordField1.getPassword()), this.jTextFieldDatabase.getText());
-            bOK = m_queryrunner.Connect("cs100.seattleu.edu", "mm_cpsc502101team01", "mm_cpsc502101team01Pass-", "mm_cpsc502101team01");
+            bOK = m_queryrunner.Connect(this.jTextHostname.getText(), this.jTextFieldUser.getText(), "mm_cpsc502101team01Pass-", this.jTextFieldDatabase.getText());
 //            bOK = m_queryrunner.Connect("localhost", "root", "", "");
 
             if (bOK == true)
