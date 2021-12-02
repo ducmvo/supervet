@@ -301,7 +301,7 @@ public class QueryFrame extends javax.swing.JFrame {
          
         if (this.m_queryrunner.isParameterQuery(m_queryChoice))
         {           
-            this.jPanel1.setVisible(true);                        
+            this.jPanel1.setVisible(true);
             int nAmt = this.m_queryrunner.GetParameterAmtForQuery(m_queryChoice);
             for (int i=0; i< nAmt; i++)
             {
