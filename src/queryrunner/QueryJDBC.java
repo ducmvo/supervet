@@ -85,7 +85,6 @@ public class QueryJDBC {
                 preparedStatement.setString(i+1, parm);
 
             }
-
             //preparedStatement.setString(1,  "%" + szContact + "%");
             resultSet=preparedStatement.executeQuery();
 

@@ -57,10 +57,12 @@ public class QueryConsole {
          if (keyboard.nextLine().toLowerCase().charAt(0) == 'y') {
             numParams = qr.GetParameterAmtForQuery(queryChoice);
             paramString = new String[numParams];
-            System.out.println("QUERY PARAMS INPUT");
-            for (int i = 0; i < numParams; i++) {
-               System.out.printf("Enter %s: ", qr.GetParamText(queryChoice, i));
-               paramString[i] = keyboard.nextLine();
+            if (numParams > 0) {
+               System.out.println("QUERY PARAMS INPUT");
+               for (int i = 0; i < numParams; i++) {
+                  System.out.printf("Enter %s: ", qr.GetParamText(queryChoice, i));
+                  paramString[i] = keyboard.nextLine();
+               }
             }
 
             executeQuery(queryChoice, paramString);
@@ -179,13 +181,17 @@ public class QueryConsole {
     * @param colWidth maximum widths for columns
     */
    private void printCol(int index, String[] row, int[] colWidth) {
-      int maxWidth = Math.min(colWidth[index], row[index].length());
+      int maxWidth;
+      String data = row[index] == null ? "null" : row[index];
+      maxWidth = Math.min(colWidth[index], data.length());
+
       int left = (colWidth[index] - maxWidth) / 2;
       String leftAlign = left > 0 ?  "%" + left + "s" : "%s";
       String alignedText = String.format(
-              leftAlign + row[index].substring(0, maxWidth),
+              leftAlign + data.substring(0, maxWidth),
               "");
-      if (colWidth[index] < row[index].length()) {
+
+      if (colWidth[index] < data.length()) {
          alignedText = alignedText.substring(0, alignedText.length() - 3) +
                  "...";
       }
@@ -202,12 +208,16 @@ public class QueryConsole {
       for (int col = 0; col < headers.length; col++) {
          colWidth[col] = headers[col].length();
       }
-
-      for (int row = 0; row < allData.length; row++) {
-         for (int col = 0; col < allData[row].length; col++) {
-            colWidth[col] = Math.max(colWidth[col],
-                    allData[row][col].length());
-         }
+      try {
+            for (int row = 0; row < allData.length; row++) {
+               for (int col = 0; col < allData[row].length; col++) {
+                  if (allData[row][col] != null)
+                     colWidth[col] = Math.max(colWidth[col],
+                          allData[row][col].length());
+               }
+            }
+      } catch (Exception e) {
+         System.out.println(e);
       }
 
       for (int col = 0; col < headers.length; col++) {
