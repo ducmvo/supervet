@@ -134,6 +134,7 @@ public class QueryRunner {
         // query 5: retrieve a pet's medication history by email as input
         String query5 = "SELECT PrescriptionID, " +
             "Pet.petID,\n" +
+            "Customer.email,\n" +
             "Pet.name AS `pet_name`, \n" +
             "Product.productID,\n" +
             "Product.name AS `drug_name`,\n" +
@@ -146,13 +147,13 @@ public class QueryRunner {
             "JOIN Product USING (productID)\n" +
             "JOIN Pet USING (petID)\n" +
             "JOIN Customer USING (customerID)\n" +
-            "WHERE Customer.email = '?' \n" +
+            "WHERE Customer.email like ? \n" +
             "ORDER BY Pet.name;";
 
         System.out.println(query5);
 
         m_queryArray.add(new QueryData(query5, new String [] {
-                "customer's email"}, new boolean [] {false},
+                "customer's email"}, new boolean [] {true},
                 false, true));
 
         // query 6: insert a new sale to sale table.
