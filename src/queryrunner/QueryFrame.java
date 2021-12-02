@@ -29,7 +29,7 @@ public class QueryFrame extends javax.swing.JFrame {
     public QueryFrame(QueryRunner queryrunnerObj) {
         initComponents();
 
-        m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12, jLabel13, jLabel14};
+        m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12, jLabel13};
         m_textvals = new JTextField[] { jTextField5, jTextField6,jTextField7,jTextField8,jTextField9,jTextField10,jTextField11,jTextField12};
         m_queryrunner = queryrunnerObj;
         String[] m_querynames = new String[]{"Display all customer info", "Display product info ",
@@ -294,11 +294,11 @@ public class QueryFrame extends javax.swing.JFrame {
      * 
      * @param evt 
      */
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed=
         jTextArea2.setText("");
         String szChoice = (String)jComboBoxQuery.getSelectedItem();
-        String szStripChoice = szChoice.substring(szChoice.length() - 1);
+        String[] szStripChoiceArr = szChoice.split("\\s+");
+        String szStripChoice = szStripChoiceArr[szStripChoiceArr.length - 1];
         m_queryChoice = Integer.parseInt(szStripChoice)-1;
         String szQuery = m_queryrunner.GetQueryText(m_queryChoice);
         this.jTextArea1.setText(szQuery);
