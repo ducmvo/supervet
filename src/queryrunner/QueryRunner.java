@@ -62,6 +62,14 @@ public class QueryRunner {
         // some parameters are left blank since exceeding 8 parameters  would
         // fail running the program.
 
+        m_querynames = new String[]{
+                "Display all customer info", "Display product info ",
+                "Create Customer", "Create Pet", "Create Prescription",
+                "Create Medication", "Pull pet meds by email", "Create sale",
+                "Create sale log", "List customer med history", "Find prod by name",
+                "Change prod price", "Find vet by name", "Find pet by name"
+        };
+
         // query 13: display the customer table
         String query13 = "SELECT * FROM Customer;";
         m_queryArray.add(new QueryData(query13, new String [] {}, new boolean [] {},
@@ -387,12 +395,17 @@ public class QueryRunner {
     {
         return m_error;
     }
- 
+
+    public String getQueryName(int queryChoice) {
+        return m_querynames[queryChoice];
+    }
+
     private QueryJDBC m_jdbcData;
     private String m_error;    
     private String m_projectTeamApplication;
     private ArrayList<QueryData> m_queryArray;  
     private int m_updateAmount;
+    String[] m_querynames;
             
     /**
      * Run main method with '-console' argument for console interface

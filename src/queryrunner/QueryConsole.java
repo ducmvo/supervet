@@ -1,4 +1,5 @@
 package queryrunner;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -41,9 +42,7 @@ public class QueryConsole {
          numQueries = qr.GetTotalQueries();
          System.out.println("QUERY MENU: ");
          for (int i=0; i < numQueries; i++)
-            System.out.printf("Query %d - %s...\n" ,
-                    (i+1),
-                    qr.GetQueryText(i).substring(0,20));
+            System.out.printf("Query %d - %s\n" , (i+1), qr.getQueryName(i));
 
          System.out.print("Enter Query Number: ");
          queryChoice  = keyboard.nextInt() - 1;
@@ -243,6 +242,35 @@ public class QueryConsole {
       System.out.printf("THANK YOU FOR CHOOSING %s\n",
               qr.GetProjectTeamApplication());
    }
+
+
+   private void createPrescription() {
+      // CREATE A PRESCRIPTION
+      // Select a Pet
+      // Select a Vet
+      // Create a Prescription
+
+      // CREATE PRESCRIPTION PRODUCT
+      // Select product, quantity, unit, description
+      String productID, quantity, unit, description;
+      ArrayList<String[]> preProds = new ArrayList<>();
+      String[] preProd;
+      Scanner keyboard = new Scanner(System.in);
+      do {
+         System.out.print("Enter productID: ");
+         productID = keyboard.nextLine();
+         System.out.print("Enter quantity: ");
+         quantity = keyboard.nextLine();
+         System.out.print("Enter unit: ");
+         unit = keyboard.nextLine();
+         System.out.print("Enter description: ");
+         description = keyboard.nextLine();
+         preProd = new String[] {productID, quantity, unit, description};
+         preProds.add(preProd);
+         System.out.println("Add more drug? (y/n)");
+      } while (keyboard.nextLine().toLowerCase().charAt(0) == 'y');
+   }
+
 
    private QueryRunner qr;       // QueryRunner instance
    private String[] headers;     // Executed query column label

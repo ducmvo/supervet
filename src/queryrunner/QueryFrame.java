@@ -32,19 +32,13 @@ public class QueryFrame extends javax.swing.JFrame {
         m_parmlabels = new JLabel[]{jLabel1, jLabel2, jLabel3, jLabel4, jLabel9, jLabel10, jLabel11, jLabel12, jLabel13};
         m_textvals = new JTextField[] { jTextField5, jTextField6,jTextField7,jTextField8,jTextField9,jTextField10,jTextField11,jTextField12};
         m_queryrunner = queryrunnerObj;
-        String[] m_querynames = new String[]{"Display all customer info", "Display product info ",
-                                             "Create Customer", "Create Pet", "Create Prescription",
-                                             "Create Medication", "Pull pet meds by email", "Create sale",
-                                             "Create sale log", "List customer med history", "Find prod by name",
-                                             "Change prod price", "Find vet by name", "Find pet by name"
-                                             };
         // Find out how many queries there are and set up combo box
         // If it is a grid query, then enable jtable
         int nAmt = m_queryrunner.GetTotalQueries();
 
         for (int i=0; i < nAmt; i++)
         {
-            this.jComboBoxQuery.addItem(m_querynames[i] + " " + (i+1));
+            this.jComboBoxQuery.addItem(m_queryrunner.getQueryName(i) + " " + (i+1));
         }
         jComboBoxQuery.setEnabled(false);
         jBtnRunQuery.setEnabled(false);
